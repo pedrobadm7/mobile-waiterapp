@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button } from '../Button';
 import { Categories } from '../Categories';
 import { Header } from '../Header';
@@ -6,6 +7,13 @@ import { TableModal } from '../TableModal';
 import * as S from './styles';
 
 export function Main() {
+  const [isTableModalVisible, setIsTableModalVisible] = useState(false);
+  const [selectedTable, setSelectedTable] = useState('');
+
+  function handleSaveTable(table: string) {
+    setSelectedTable(table);
+  }
+
   return (
     <>
       <S.Container>
@@ -24,14 +32,18 @@ export function Main() {
 
       <S.Footer>
         <S.FooterContainer>
-          <Button
-            onPress={() => alert('novo pedido')}
+          {!selectedTable ? <Button
+            onPress={() => setIsTableModalVisible(true)}
           >
             Novo Pedido
-          </Button>
+          </Button> : null}
         </S.FooterContainer>
       </S.Footer>
-      <TableModal />
+      <TableModal
+        visible={isTableModalVisible}
+        onClose={() => setIsTableModalVisible(false)}
+        onSave={handleSaveTable}
+      />
     </>
   );
 }
