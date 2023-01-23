@@ -1,6 +1,7 @@
 import { FlatList } from 'react-native';
 import { products } from '../../mocks/products';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { PlusCircle } from '../Icons/PlusCircle';
 import { Text } from '../Text';
 
 import * as S from './styles';
@@ -29,6 +30,10 @@ export function Menu() {
               </Text>
               <Text size={14} weight='600'>{formatCurrency(product.price)}</Text>
             </S.ProductDetails>
+
+            <S.AddToCardButton>
+              <PlusCircle />
+            </S.AddToCardButton>
           </S.Product>
         );
       }}
