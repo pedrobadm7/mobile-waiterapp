@@ -20,16 +20,6 @@ export function Categories() {
           </S.Category>
         )}
       />
-      {/* {categories.map((category) => {
-        return (
-          <S.Category key={category._id}>
-            <S.Icon>
-              <Text>{category.icon}</Text>
-            </S.Icon>
-            <Text size={14} weight='600'>{category.name}</Text>
-          </S.Category>
-        );
-      })} */}
     </>
   );
 }
