@@ -26,6 +26,7 @@ export function TableModal() {
             <S.Input
               placeholder='Número da mesa'
               placeholderTextColor='#666'
+              keyboardType='number-pad'
             />
             <Button onPress={() => { }}>
               Salvar
