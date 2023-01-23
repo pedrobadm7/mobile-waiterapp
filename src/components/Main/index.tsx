@@ -2,6 +2,7 @@ import { Button } from '../Button';
 import { Categories } from '../Categories';
 import { Header } from '../Header';
 import { Menu } from '../Menu';
+import { TableModal } from '../TableModal';
 import * as S from './styles';
 
 export function Main() {
@@ -30,6 +31,7 @@ export function Main() {
           </Button>
         </S.FooterContainer>
       </S.Footer>
+      <TableModal />
     </>
   );
 }
