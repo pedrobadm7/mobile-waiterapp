@@ -2,6 +2,9 @@ import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import { Main } from './src/components/Main';
 
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -14,7 +17,7 @@ export default function App() {
 
   return (
     <>
-      <StatusBar style="dark"/>
+      <StatusBar style="dark" />
       <Main /></>
   );
 }
