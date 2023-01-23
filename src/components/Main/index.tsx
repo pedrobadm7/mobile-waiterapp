@@ -1,4 +1,6 @@
+import { Categories } from '../Categories';
 import { Header } from '../Header';
+import { Menu } from '../Menu';
 import * as S from './styles';
 
 export function Main() {
@@ -7,9 +9,13 @@ export function Main() {
       <S.Container>
         <Header />
 
-        <S.CategoriesContainer></S.CategoriesContainer>
+        <S.CategoriesContainer>
+          <Categories />
+        </S.CategoriesContainer>
 
-        <S.MenuContainer></S.MenuContainer>
+        <S.MenuContainer>
+          <Menu />
+        </S.MenuContainer>
 
 
       </S.Container>
