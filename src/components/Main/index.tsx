@@ -1,3 +1,4 @@
+import { Button } from '../Button';
 import { Categories } from '../Categories';
 import { Header } from '../Header';
 import { Menu } from '../Menu';
@@ -19,8 +20,15 @@ export function Main() {
 
 
       </S.Container>
+
       <S.Footer>
-        <S.FooterContainer></S.FooterContainer>
+        <S.FooterContainer>
+          <Button
+            onPress={() => alert('novo pedido')}
+          >
+            Novo Pedido
+          </Button>
+        </S.FooterContainer>
       </S.Footer>
     </>
   );
