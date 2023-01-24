@@ -16,6 +16,7 @@ export function TableModal({ visible, onClose, onSave }: TableModalProps) {
   const [table, setTable] = useState('');
 
   function handleSave() {
+    setTable('');
     onSave(table);
     onClose();
   }
@@ -40,6 +41,7 @@ export function TableModal({ visible, onClose, onSave }: TableModalProps) {
           </S.Header>
           <S.Form>
             <S.Input
+              value={table}
               placeholder='Número da mesa'
               placeholderTextColor='#666'
               keyboardType='number-pad'
