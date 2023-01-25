@@ -18,24 +18,19 @@ export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState('');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    axios.get('http://192.168.100.7:3001/categories')
-      .then((response) => {
-        const { data } = response;
-
-        setCategories(data);
-      });
-
-    axios.get('http://192.168.100.7:3001/products')
-      .then((response) => {
-        const { data } = response;
-
-        setProducts(data);
-      });
+    Promise.all([
+      axios.get('http://192.168.100.7:3001/categories'),
+      axios.get('http://192.168.100.7:3001/products')
+    ]).then(([categoriesResponse, productsResponse]) => {
+      setCategories(categoriesResponse.data);
+      setProducts(productsResponse.data);
+      setIsLoading(false);
+    });
   }, []);
 
   function handleSaveTable(table: string) {
