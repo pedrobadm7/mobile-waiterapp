@@ -49,6 +49,33 @@ export function Main() {
     });
   }
 
+  function handleDecrementCartItem(product: Product) {
+    setCartItems((prevState) => {
+      const itemIndex = prevState.findIndex((cartItem) => cartItem.product._id === product._id);
+
+      const item = prevState[itemIndex];
+
+      if (item.quantity === 1) {
+        const newCartItems = [...prevState];
+        newCartItems.splice(itemIndex, 1);
+
+        return newCartItems;
+      }
+
+      const newCartItems = [...prevState];
+
+      newCartItems[itemIndex] = {
+        ...item,
+        quantity: item.quantity - 1
+      };
+
+      return newCartItems;
+
+    });
+
+
+  }
+
   return (
     <>
       <S.Container>
@@ -74,7 +101,12 @@ export function Main() {
           onPress={() => setIsTableModalVisible(true)}
         >
           Novo Pedido
-        </Button> : <Cart cartItems={cartItems} />}
+        </Button> :
+          <Cart
+            cartItems={cartItems}
+            onAdd={handleAddToCart}
+            onDecrement={handleDecrementCartItem}
+          />}
         {/* </S.FooterContainer> */}
       </S.Footer>
 

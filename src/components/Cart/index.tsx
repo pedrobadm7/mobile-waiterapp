@@ -10,9 +10,16 @@ import * as S from './styles';
 
 interface CartProps {
   cartItems: CartItem[];
+  onAdd: (product: Product) => void
+  onDecrement: (product: Product) => void
 }
 
-export function Cart({ cartItems }: CartProps) {
+export function Cart({ cartItems, onAdd, onDecrement }: CartProps) {
+
+  const total = cartItems.reduce((acc, cartItem) => {
+    return acc + cartItem.quantity * cartItem.product.price;
+  }, 0);
+
   return (
     <>
       {cartItems.length > 0 ? (
@@ -37,11 +44,11 @@ export function Cart({ cartItems }: CartProps) {
                 </S.ProductContainer>
 
                 <S.Actions>
-                  <TouchableOpacity style={{ marginRight: 24 }}>
+                  <TouchableOpacity style={{ marginRight: 24 }} onPress={() => onAdd(cartItem.product)}>
                     <PlusCircle />
                   </TouchableOpacity>
 
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => onDecrement(cartItem.product)}>
                     <MinusCircle />
                   </TouchableOpacity>
                 </S.Actions>
@@ -56,7 +63,7 @@ export function Cart({ cartItems }: CartProps) {
           {cartItems.length > 0 ? (
             <>
               <Text color='#666'>Total</Text>
-              <Text weight='600' size={20}>{formatCurrency(35)}</Text>
+              <Text weight='600' size={20}>{formatCurrency(total)}</Text>
             </>
           ) : (
             <Text color='#666'>Seu carrinho está vazio</Text>)
