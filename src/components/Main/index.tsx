@@ -47,13 +47,13 @@ export function Main() {
       </S.Container>
 
       <S.Footer>
-        <S.FooterContainer>
-          {!selectedTable ? <Button
-            onPress={() => setIsTableModalVisible(true)}
-          >
-            Novo Pedido
-          </Button> : <Cart cartItems={cartItems} />}
-        </S.FooterContainer>
+        {/* <S.FooterContainer> */}
+        {!selectedTable ? <Button
+          onPress={() => setIsTableModalVisible(true)}
+        >
+          Novo Pedido
+        </Button> : <Cart cartItems={cartItems} />}
+        {/* </S.FooterContainer> */}
       </S.Footer>
 
       <TableModal
