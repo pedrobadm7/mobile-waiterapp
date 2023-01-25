@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { products } from '../../mocks/products';
 import { CartItem } from '../../types/CartItem';
+import { Product } from '../../types/Product';
 import { Button } from '../Button';
 import { Cart } from '../Cart';
 import { Categories } from '../Categories';
@@ -12,12 +12,7 @@ import * as S from './styles';
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState('');
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      quantity: 1,
-      product: products[0]
-    },
-  ]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
@@ -25,6 +20,33 @@ export function Main() {
 
   function handleCancelOrder() {
     setSelectedTable('');
+  }
+
+  function handleAddToCart(product: Product) {
+    if (!selectedTable) {
+      setIsTableModalVisible(true);
+    }
+
+    setCartItems((prevState) => {
+      const itemIndex = prevState.findIndex((cartItem) => cartItem.product._id === product._id);
+
+      if (itemIndex < 0) {
+        return prevState.concat({
+          quantity: 1,
+          product
+        });
+      }
+
+      const newCartItems = [...prevState];
+      const item = newCartItems[itemIndex];
+
+      newCartItems[itemIndex] = {
+        ...item,
+        quantity: item.quantity + 1
+      };
+
+      return newCartItems;
+    });
   }
 
   return (
@@ -40,7 +62,7 @@ export function Main() {
         </S.CategoriesContainer>
 
         <S.MenuContainer>
-          <Menu />
+          <Menu onAddToCart={handleAddToCart} />
         </S.MenuContainer>
 
 
