@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { CartItem } from '../../types/CartItem';
 import { Product } from '../../types/Product';
@@ -8,17 +8,35 @@ import { Categories } from '../Categories';
 import { Header } from '../Header';
 import { Menu } from '../Menu';
 import { TableModal } from '../TableModal';
-import { products as mockProducts } from '../../mocks/products';
 import * as S from './styles';
 import { Empty } from '../Icons/Empty';
 import { Text } from '../Text';
+import { Category } from '../../types/Category';
+import axios from 'axios';
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState('');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [products, setProducts] = useState<Product[]>(mockProducts);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    axios.get('http://192.168.100.7:3001/categories')
+      .then((response) => {
+        const { data } = response;
+
+        setCategories(data);
+      });
+
+    axios.get('http://192.168.100.7:3001/products')
+      .then((response) => {
+        const { data } = response;
+
+        setProducts(data);
+      });
+  }, []);
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
@@ -94,7 +112,7 @@ export function Main() {
         {!isLoading ? (
           <>
             <S.CategoriesContainer>
-              <Categories />
+              <Categories categories={categories} />
             </S.CategoriesContainer>
 
             {products.length > 0 ? (
