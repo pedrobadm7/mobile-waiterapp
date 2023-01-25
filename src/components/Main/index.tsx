@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { CartItem } from '../../types/CartItem';
 import { Product } from '../../types/Product';
 import { Button } from '../Button';
@@ -7,12 +8,17 @@ import { Categories } from '../Categories';
 import { Header } from '../Header';
 import { Menu } from '../Menu';
 import { TableModal } from '../TableModal';
+import { products as mockProducts } from '../../mocks/products';
 import * as S from './styles';
+import { Empty } from '../Icons/Empty';
+import { Text } from '../Text';
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState('');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState<Product[]>(mockProducts);
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
@@ -85,14 +91,34 @@ export function Main() {
           onCancelOrder={handleResetOrder}
         />
 
-        <S.CategoriesContainer>
-          <Categories />
-        </S.CategoriesContainer>
+        {!isLoading ? (
+          <>
+            <S.CategoriesContainer>
+              <Categories />
+            </S.CategoriesContainer>
 
-        <S.MenuContainer>
-          <Menu onAddToCart={handleAddToCart} />
-        </S.MenuContainer>
-
+            {products.length > 0 ? (
+              <S.MenuContainer>
+                <Menu
+                  onAddToCart={handleAddToCart}
+                  products={products}
+                />
+              </S.MenuContainer>
+            ) : (
+              <S.CenteredContainer>
+                <Empty />
+                <Text color="#666" style={{ marginTop: 24 }}>Nenhum produto foi encontrado!</Text>
+              </S.CenteredContainer>
+            )}
+          </>
+        ) : (
+          <S.CenteredContainer>
+            <ActivityIndicator
+              color="#D73035"
+              size="large"
+            />
+          </S.CenteredContainer>
+        )}
 
       </S.Container>
 
@@ -101,6 +127,7 @@ export function Main() {
         {!selectedTable ? (
           <Button
             onPress={() => setIsTableModalVisible(true)}
+            disabled={isLoading}
           >
             Novo Pedido
           </Button>
