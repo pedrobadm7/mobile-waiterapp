@@ -22,6 +22,7 @@ export function Main() {
   const [isLoading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -33,6 +34,23 @@ export function Main() {
       setIsLoading(false);
     });
   }, []);
+
+  async function handleSelectCategory(categoryId: string) {
+    try {
+      setIsLoadingProducts(true);
+      const route = !categoryId
+        ? '/products'
+        : `/categories/${categoryId}/products`;
+
+      const { data } = await api.get(route);
+
+      setProducts(data);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoadingProducts(false);
+    }
+  }
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
@@ -105,33 +123,49 @@ export function Main() {
           onCancelOrder={handleResetOrder}
         />
 
-        {!isLoading ? (
-          <>
-            <S.CategoriesContainer>
-              <Categories categories={categories} />
-            </S.CategoriesContainer>
+        {isLoading ? (
 
-            {products.length > 0 ? (
-              <S.MenuContainer>
-                <Menu
-                  onAddToCart={handleAddToCart}
-                  products={products}
-                />
-              </S.MenuContainer>
-            ) : (
-              <S.CenteredContainer>
-                <Empty />
-                <Text color="#666" style={{ marginTop: 24 }}>Nenhum produto foi encontrado!</Text>
-              </S.CenteredContainer>
-            )}
-          </>
-        ) : (
           <S.CenteredContainer>
             <ActivityIndicator
               color="#D73035"
               size="large"
             />
           </S.CenteredContainer>
+
+        ) : (
+          <>
+            <S.CategoriesContainer>
+              <Categories
+                categories={categories}
+                onSelectCategory={handleSelectCategory}
+              />
+            </S.CategoriesContainer>
+
+            {isLoadingProducts ? (
+              <S.CenteredContainer>
+                <ActivityIndicator
+                  color="#D73035"
+                  size="large"
+                />
+              </S.CenteredContainer>
+            ) : (
+              <>
+                {products.length > 0 ? (
+                  <S.MenuContainer>
+                    <Menu
+                      onAddToCart={handleAddToCart}
+                      products={products}
+                    />
+                  </S.MenuContainer>
+                ) : (
+                  <S.CenteredContainer>
+                    <Empty />
+                    <Text color="#666" style={{ marginTop: 24 }}>Nenhum produto foi encontrado!</Text>
+                  </S.CenteredContainer>
+                )}
+              </>
+            )}
+          </>
         )}
 
       </S.Container>
@@ -148,6 +182,7 @@ export function Main() {
         ) : (
           <Cart
             cartItems={cartItems}
+            selectedTable={selectedTable}
             onAdd={handleAddToCart}
             onDecrement={handleDecrementCartItem}
             onConfirmOrder={handleResetOrder}
