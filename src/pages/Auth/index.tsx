@@ -42,7 +42,7 @@ export function AuthScreen() {
 
         <S.ButtonContainer>
           <Button
-            disabled={true}
+            disabled={email === '' || password === ''}
             loading={false}
             onPress={() => console.log('Login')}
           >
