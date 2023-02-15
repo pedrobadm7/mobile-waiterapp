@@ -1,10 +1,10 @@
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
-import { Main } from './src/components/Main';
 import * as SplashScreen from 'expo-splash-screen';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 import { useEffect} from 'react';
+import { AppNavigation } from './src/core/navigation/AppRouting';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,7 +31,8 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-      <Main /></>
+      <AppNavigation />
+    </>
   );
 }
 
