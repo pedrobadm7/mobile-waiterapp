@@ -63,7 +63,7 @@ function RootStackFlow() {
 
 export function AppNavigation() {
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1}}>
       <NavigationContainer>
         <RootStackFlow />
       </NavigationContainer>
