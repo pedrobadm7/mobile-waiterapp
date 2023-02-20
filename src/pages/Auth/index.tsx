@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { Platform, View } from 'react-native';
 import { Button } from '../../components/Button';
 import { Text } from '../../components/Text';
+import { FLOWS, MAIN_SCREENS } from '../../core/navigation/constants';
 
 import * as S from './styles';
 const isAndroid = Platform.OS === 'android';
 
-export function AuthScreen() {
+export function AuthScreen({navigation}: any) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +45,9 @@ export function AuthScreen() {
           <Button
             disabled={email === '' || password === ''}
             loading={false}
-            onPress={() => console.log('Login')}
+            onPress={() => navigation.navigate(FLOWS.MAIN_FLOW, {
+              page: MAIN_SCREENS.MAIN_PAGE
+            })}
           >
         Fazer Login
           </Button>
